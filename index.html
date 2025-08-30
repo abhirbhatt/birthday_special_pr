@@ -1097,43 +1097,52 @@ Sbse phele to aap ye gift open kro
             const countdown = document.getElementById('countdown');
             const birthdayDate = new Date('August 31, 2025 00:00:00').getTime();
 
-            function updateCountdown() {
-                const now = new Date().getTime();
-                const gap = birthdayDate - now;
+            // Add this flag at the top with your other variables
+let birthdayConfettiFired = false; // NEW: Flag to track if birthday confetti was already fired
 
-                if (gap <= 0) {
-                    document.querySelector('#countdown h2').innerHTML = '🎉 It\'s Your Birthday! 🎉';
-                    fireSideConfetti();
-                    return;
-                }
+// Then replace the updateCountdown function with this fixed version:
+function updateCountdown() {
+    const now = new Date().getTime();
+    const gap = birthdayDate - now;
 
-                const second = 1000;
-                const minute = second * 60;
-                const hour = minute * 60;
-                const day = hour * 24;
-                const week = day * 7;
+    if (gap <= 0) {
+        document.querySelector('#countdown h2').innerHTML = '🎉 It\'s Your Birthday! 🎉';
+        
+        // FIXED: Only fire confetti once when birthday arrives
+        if (!birthdayConfettiFired) {
+            fireSideConfetti();
+            birthdayConfettiFired = true; // Set flag to prevent repeated firing
+        }
+        return;
+    }
 
-                const weeks = Math.floor(gap / week);
-                const days = Math.floor((gap % week) / day);
-                const hours = Math.floor((gap % day) / hour);
-                const minutes = Math.floor((gap % hour) / minute);
-                const seconds = Math.floor((gap % minute) / second);
+    const second = 1000;
+    const minute = second * 60;
+    const hour = minute * 60;
+    const day = hour * 24;
+    const week = day * 7;
 
-                // Update individual countdown elements
-                const weeksEl = document.getElementById('weeks-number');
-                const daysEl = document.getElementById('days-number');
-                const hoursEl = document.getElementById('hours-number');
-                const minutesEl = document.getElementById('minutes-number');
-                const secondsEl = document.getElementById('seconds-number');
+    const weeks = Math.floor(gap / week);
+    const days = Math.floor((gap % week) / day);
+    const hours = Math.floor((gap % day) / hour);
+    const minutes = Math.floor((gap % hour) / minute);
+    const seconds = Math.floor((gap % minute) / second);
 
-                if (weeksEl) weeksEl.textContent = weeks;
-                if (daysEl) daysEl.textContent = days;
-                if (hoursEl) hoursEl.textContent = hours;
-                if (minutesEl) minutesEl.textContent = minutes;
-                if (secondsEl) secondsEl.textContent = seconds;
+    // Update individual countdown elements
+    const weeksEl = document.getElementById('weeks-number');
+    const daysEl = document.getElementById('days-number');
+    const hoursEl = document.getElementById('hours-number');
+    const minutesEl = document.getElementById('minutes-number');
+    const secondsEl = document.getElementById('seconds-number');
 
-                updateLanguage();
-            }
+    if (weeksEl) weeksEl.textContent = weeks;
+    if (daysEl) daysEl.textContent = days;
+    if (hoursEl) hoursEl.textContent = hours;
+    if (minutesEl) minutesEl.textContent = minutes;
+    if (secondsEl) secondsEl.textContent = seconds;
+
+    updateLanguage();
+}
 
             function toggleTheme() {
                 currentTheme = currentTheme === 'light' ? 'dark' : 'light';
@@ -1226,5 +1235,6 @@ Sbse phele to aap ye gift open kro
 </body>
 
 </html>
+
 
 
